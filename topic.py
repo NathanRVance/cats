@@ -88,6 +88,8 @@ class ClusterCategorizer():
 class Baseline():
     def __init__(self):
         self.remove = re.compile(r'http\S+|@|#|^rt ')
+        from nltk.stem.wordnet import WordNetLemmatizer
+        self.lmtzr = WordNetLemmatizer()
 
     def topics(self, text):
         text = self.remove.sub('', text)
@@ -95,8 +97,11 @@ class Baseline():
         tagged = nltk.pos_tag(tokens)
         topics = set()
         for tag in tagged:
-            if tag[1] == 'NNP' or tag[1] == 'NN' and tag[0] in tokens:
-                topics.add(tag[0])
+            if tag[0] in tokens:
+                if tag[1] == 'NNP' or tag[1] == 'NN':
+                    topics.add(lmtzr.lemmatize(tag[0]))
+                elif tag[1].startswith('V'):
+                    topics.add(lmtzr.lemmatize(tag[0], 'v'))
         return topics
 
 class Everything():

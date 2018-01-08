@@ -47,7 +47,7 @@ def evaluate(topicsName, catsName):
     with open('out', 'a') as f:
         f.write('{} {} {} {} {} {} {}\n'.format(topicsName, catsName, correct, len(testTweets), percent, len(baseCats), len(tweets)))
 
-for topicsName in ['Baseline', 'Perceptron', 'Everything']:
+for topicsName in ['Baseline']:#, 'Perceptron', 'Everything']:
     for catsName in ['BaseCategorizer', 'ClusterCategorizer']:
         for trial in range(0, 10):
             testTweets = []
